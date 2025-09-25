@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Torneo Intercolonias - Chita</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-bg { background: linear-gradient(135deg, #918a59 0%, #B8E2A6 100%); }
+    .card-hover { transition: all 0.3s ease; }
+    .card-hover:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+    .modal-backdrop { backdrop-filter: blur(8px); }
+  </style>
+</head>
+<body class="bg-gray-50">
+
+  <!-- Header -->
+  <header class="gradient-bg text-white shadow-lg">
+    <div class="container mx-auto px-6 py-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+          <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+            <img src="assets/logoChita.jpg" alt="Logo de fútbol" class="w-8 h-8 object-contain">
+          </div>
+          <h1 class="text-[#E2F6F8] font-bold">Intercolonias - Chita</h1>
+        </div>
+        
+        <button id="loginBtn" class="bg-[#F89D58] text-white-400 text-sm px-2 py-1 rounded-lg font-small hover:bg-[#B57849] transition-colors">
+          Iniciar Sesión
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="gradient-bg text-[#524C4C] py-8">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-4xl font-bold mb-6">¡Vive el fútbol de las Intercolonias en Chita!</h2>
+      <p class="text-xl mb-8 opacity-90">Partidos en vivo, resultados y equipos participantes</p>
+    </div>
+  </section>
+
+  <!-- Partidos en Vivo -->
+  <section class="py-12">
+    <div class="container mx-auto px-6">
+      <h3 class="text-3xl font-bold text-[#524C4C] mb-6 text-center">⚽ Partidos en Vivo</h3>
+      <div class="space-y-4" id="liveMatches">
+        <!-- JS insertará aquí los partidos -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Próximos Partidos -->
+  <section class="py-1">
+    <div class="container mx-auto px-6">
+      <h5 class="text-2xl font-bold text-[#524C4C] mb-4 text-center"> Próximos Partidos</h5>
+      <div class="space-y-4" id="nextMatches">
+        <!-- JS insertará aquí los partidos -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Resultados pasados -->
+  <section class="py-12 bg-gray-50">
+    <div class="container mx-auto px-6">
+      <h3 class="text-3xl font-bold text-gray-800 mb-6 text-center">Resultados Recientes</h3>
+      <div class="space-y-3 max-w-2xl mx-auto" id="pastResults">
+        <!-- JS insertará aquí los resultados -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Equipos -->
+  <section class="py-16">
+    <div class="container mx-auto px-6">
+      <h3 class="text-3xl font-bold text-gray-800 mb-12 text-center">🏟️ Equipos Participantes</h3>
+      <div id="eventsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Equipos renderizados por JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop hidden flex items-center justify-center z-50">
+    <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 transform transition-all relative">
+      <div class="text-center mb-6">
+        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <span class="text-3xl">👋</span>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-800">¡Bienvenido!</h3>
+        <p class="text-gray-600">Inicia sesión para administrar eventos</p>
+      </div>
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+          <input type="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Contraseña</label>
+          <input type="password" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+        </div>
+        <button type="submit" class="w-full mt-4 bg-[#F89D58] text-white py-2 rounded-lg font-medium hover:bg-[#B57849] transition-colors">
+          Iniciar Sesión
+        </button>
+      </form>
+      <button id="closeLogin" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+        <span class="text-2xl">×</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal Equipo -->
+  <div id="eventModal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop hidden flex items-center justify-center z-50">
+    <div class="bg-white rounded-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto relative">
+      <div id="eventDetails"></div>
+      <button id="closeEvent" class="absolute top-4 right-4 text-white hover:text-gray-300 bg-black bg-opacity-50 rounded-full w-10 h-10 flex items-center justify-center">
+        <span class="text-xl">×</span>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Datos de ejemplo
+    const equipos = [
+    {
+        id: 1,
+        nombre: "Chita FC",
+        escudo: "assets/Chita.png",
+        jugadores: [
+            "#1 Portero - Juan",
+            "#5 Defensa - Carlos",
+            "#8 Mediocampo - Luis",
+            "#10 Delantero - Pedro",
+            "#2 Defensa - Diego",
+            "#6 Mediocampo - Andrés",
+            "#11 Delantero - Manuel"
+        ]
+    },
+    {
+        id: 2,
+        nombre: "Tunja FC",
+        escudo: "assets/Tunja.png",
+        jugadores: [
+            "#1 Portero - Miguel",
+            "#3 Defensa - Andrés",
+            "#7 Mediocampo - Felipe",
+            "#9 Delantero - Mateo",
+            "#4 Defensa - Jorge",
+            "#6 Mediocampo - Kevin",
+            "#10 Delantero - Samuel"
+        ]
+    },
+    {
+        id: 3,
+        nombre: "Bogotá FC",
+        escudo: "assets/Bogota.png",
+        jugadores: [
+            "#1 Portero - Jorge",
+            "#4 Defensa - Camilo",
+            "#6 Mediocampo - Julián",
+            "#11 Delantero - Esteban",
+            "#2 Defensa - Iván",
+            "#7 Mediocampo - Nicolás",
+            "#9 Delantero - Santiago"
+        ]
+    },
+    {
+        id: 4,
+        nombre: "Llanera FC",
+        escudo: "assets/Llanera.png",
+        jugadores: [
+            "#1 Portero - David",
+            "#2 Defensa - Sebastián",
+            "#8 Mediocampo - Óscar",
+            "#10 Delantero - Martín",
+            "#3 Defensa - Fernando",
+            "#5 Mediocampo - Pablo",
+            "#9 Delantero - Ricardo"
+        ]
+    }
+];
+
+    const partidosEnVivo = [
+      { equipoA: "Chita FC", golesA: 2, equipoB: "Tunja FC", golesB: 1, minuto: 75 }
+    ];
+
+    const proximosPartidos = [
+      { equipoA: "Bogotá FC", equipoB: "Llanera FC", hora: "11:00", estado: "Programado" },
+      { equipoA: "Tunja FC", equipoB: "Bogotá FC", hora: "2:00", estado: "Programado" },
+      { equipoA: "Llanera FC", equipoB: "Chita FC", hora: "4:00", estado: "Programado" }
+    ];
+
+    const resultadosPasados = [
+      { resultado: "Chita FC 1 - 2 Bogotá FC", fecha: "1 Nov 2025" },
+      { resultado: "Tunja FC 2 - 2 Llanera FC", fecha: "2 Nov 2025" }
+    ];
+
+    // Render equipos
+    function renderEquipos() {
+      const grid = document.getElementById("eventsGrid");
+      grid.innerHTML = equipos.map(eq => `
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover cursor-pointer" onclick="showEquipo(${eq.id})">
+          <div class="h-40 gradient-bg flex items-center justify-center">
+            <img src="${eq.escudo}" alt="Escudo de ${eq.nombre}" class="w-20 h-20 object-contain" />
+          </div>
+          <div class="p-6 text-center">
+            <h4 class="text-xl font-bold text-gray-800">${eq.nombre}</h4>
+            <button class="w-full mt-4 bg-[#F89D58] text-white py-2 rounded-lg font-medium hover:bg-[#B57849] transition-colors">
+                Ver Jugadores
+            </button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    // Render partidos en vivo
+    function renderPartidos() {
+      const cont = document.getElementById("liveMatches");
+      cont.innerHTML = partidosEnVivo.map(p => `        
+        <div class="bg-white rounded-xl shadow-md p-6 flex justify-between items-center ${p.minuto ? 'border-l-8 border-red-500' : ''}">
+            <div class="flex-1 text-center font-bold">${p.equipoA}</div>
+          <div class="flex-1 text-center">
+            ${p.minuto ? `<span class="text-2xl font-bold">${p.golesA} - ${p.golesB}</span><p class="text-sm text-red-600 mt-1">🔴 Min ${p.minuto}</p>` : `<span class="text-gray-500">${p.hora}</span><p class="text-sm text-gray-400 mt-1">${p.estado}</p>`}
+          </div>
+          <div class="flex-1 text-center font-bold">${p.equipoB}</div>
+        </div>
+      `).join("");
+    }
+
+    // Render próximos partidos
+    function renderProximosPartidos() {
+      const cont = document.getElementById("nextMatches");
+      cont.innerHTML = proximosPartidos.map(p => `
+        <div class="bg-white rounded-xl shadow-md p-6 flex justify-between items-center ${p.minuto ? 'border-l-8 border-red-500' : ''}">
+          <div class="flex-1 text-center font-bold">${p.equipoA}</div>
+          <div class="flex-1 text-center">
+            <span class="text-gray-500">${p.hora}</span><p class="text-sm text-gray-400 mt-1">${p.estado}</p>
+          </div>
+          <div class="flex-1 text-center font-bold">${p.equipoB}</div>
+        </div>
+      `).join("");
+    }
+
+    // Render resultados pasados
+    function renderResultados() {
+      const cont = document.getElementById("pastResults");
+      cont.innerHTML = resultadosPasados.map(r => `
+        <div class="flex justify-between bg-white rounded-lg shadow p-4">
+          <span>${r.resultado}</span>
+          <span class="text-gray-500 text-sm">${r.fecha}</span>
+        </div>
+      `).join("");
+    }
+
+    // Mostrar jugadores del equipo
+    function showEquipo(id) {
+      const eq = equipos.find(e => e.id === id);
+      const modal = document.getElementById("eventModal");
+      const details = document.getElementById("eventDetails");
+
+      details.innerHTML = `
+        <div class="h-48 gradient-bg flex items-center justify-center">
+          <img src="${eq.escudo}" alt="Escudo de ${eq.nombre}" class="w-24 h-24 object-contain" />
+        </div>
+        <div class="p-8">
+          <h2 class="text-3xl font-bold text-gray-800 mb-4">${eq.nombre}</h2>
+          <h3 class="text-xl font-bold text-gray-800 mb-3">Plantilla</h3>
+          <ul class="space-y-2">
+            ${eq.jugadores.map(j => `<li class="bg-gray-50 px-4 py-2 rounded-lg">${j}</li>`).join("")}
+          </ul>
+        </div>
+      `;
+      modal.classList.remove("hidden");
+    }
+
+    // Controles de modales
+    document.getElementById("loginBtn").addEventListener("click", () => {
+      document.getElementById("loginModal").classList.remove("hidden");
+    });
+    document.getElementById("closeLogin").addEventListener("click", () => {
+      document.getElementById("loginModal").classList.add("hidden");
+    });
+    document.getElementById("closeEvent").addEventListener("click", () => {
+      document.getElementById("eventModal").classList.add("hidden");
+    });
+
+    // Inicializar
+    renderEquipos();
+    renderPartidos();
+    renderProximosPartidos();
+    renderResultados();
+  </script>
+</body>
+</html>
