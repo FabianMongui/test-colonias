@@ -83,6 +83,14 @@
     </div>
   </section>
 
+  <!-- Bracket -->
+  <section class="py-12 bg-white">
+    <div class="container mx-auto px-6">
+      <h3 class="text-3xl font-bold text-gray-800 mb-8 text-center">Fase Final</h3>
+      <div id="bracketContainer"></div>
+    </div>
+  </section>
+
   <!-- Equipos -->
   <section class="py-16">
     <div class="container mx-auto px-6">
@@ -205,7 +213,19 @@
       resultadosPasados: [
         { resultado: "Chita FC 1 - 2 Bogotá FC", fecha: "1 Nov 2025" },
         { resultado: "Tunja FC 2 - 2 Llanera FC", fecha: "2 Nov 2025" }
-      ]
+      ],
+      bracket: {
+        final: {
+          equipoA: { nombre: "Chita FC", escudo: "assets/Chita.png" },
+          equipoB: { nombre: "Tunja FC", escudo: "assets/Tunja.png" },
+          fecha: "2/11 - 3 pm"
+        },
+        campeon: { nombre: "Chita FC", escudo: "assets/Chita.png" },
+        tercerPuesto: [
+          { nombre: "Bogotá FC", escudo: "assets/Bogota.png" },
+          { nombre: "Llanera FC", escudo: "assets/Llanera.png" }
+        ]
+      }
     },
     "Veteranos": {
       equipos: [
@@ -274,7 +294,19 @@
       ],
       resultadosPasados: [
         { resultado: "Llanera FC 0 - 1 Tunja FC", fecha: "3 Nov 2025" }
-      ]
+      ],
+      bracket: {
+        final: {
+          equipoA: { nombre: "Tunja FC", escudo: "assets/Tunja.png" },
+          equipoB: { nombre: "Llanera FC", escudo: "assets/Llanera.png" },
+          fecha: "2/11 - 5 pm"
+        },
+        campeon: { nombre: "Tunja FC", escudo: "assets/Tunja.png" },
+        tercerPuesto: [
+          { nombre: "Chita FC", escudo: "assets/Chita.png" },
+          { nombre: "Bogotá FC", escudo: "assets/Bogota.png" }
+        ]
+      }
     },
     "Mujeres": {
       equipos: [
@@ -343,7 +375,19 @@
       ],
       resultadosPasados: [
         { resultado: "Tunja FC 2 - 0 Chita FC", fecha: "4 Nov 2025" }
-      ]
+      ],
+      bracket: {
+        final: {
+          equipoA: { nombre: "Bogotá FC", escudo: "assets/Bogota.png" },
+          equipoB: { nombre: "Chita FC", escudo: "assets/Chita.png" },
+          fecha: "2/11 - 7 pmh"
+        },
+        campeon: { nombre: "Bogotá FC", escudo: "assets/Bogota.png" },
+        tercerPuesto: [
+          { nombre: "Tunja FC", escudo: "assets/Tunja.png" },
+          { nombre: "Llanera FC", escudo: "assets/Llanera.png" }
+        ]
+      }
     }
   };
 
@@ -414,6 +458,7 @@
     renderPartidos(dataCategorias[categoria].partidosEnVivo);
     renderProximosPartidos(dataCategorias[categoria].proximosPartidos);
     renderResultados(dataCategorias[categoria].resultadosPasados);
+    renderBracket(dataCategorias[categoria].bracket);
   }
 
   function showEquipo(nombreEquipo) {
@@ -472,6 +517,58 @@
   // Inicializar
   renderCategoria("Única");
   activarTab(document.getElementById("tabUnica"));
+
+  function renderBracket(bracket) {
+    const html = `
+      <div class="flex flex-col items-center">
+        <!-- Final -->
+        <div class="flex flex-col items-center mb-12">
+          <div class="flex items-center justify-center space-x-12">
+            <div class="flex flex-col items-center">
+              <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center shadow-lg border-4 border-[#B8E2A6]">
+                <img src="${bracket.final.equipoA.escudo}" alt="${bracket.final.equipoA.nombre}" class="w-14 h-14 object-contain" />
+              </div>
+              <span class="mt-2 text-sm text-gray-700 font-semibold">${bracket.final.equipoA.nombre}</span>
+            </div>
+            <span class="text-gray-600 font-semibold text-center">
+              Final<br>
+              <span class="text-lg font-bold text-[#F89D58]">${bracket.final.fecha}</span>
+            </span>
+            <div class="flex flex-col items-center">
+              <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center shadow-lg border-4 border-[#B8E2A6]">
+                <img src="${bracket.final.equipoB.escudo}" alt="${bracket.final.equipoB.nombre}" class="w-14 h-14 object-contain" />
+              </div>
+              <span class="mt-2 text-sm text-gray-700 font-semibold">${bracket.final.equipoB.nombre}</span>
+            </div>
+          </div>
+          <div class="w-40 h-40 mt-8 bg-gradient-to-tr from-[#B8E2A6] to-[#918a59] rounded-full flex flex-col items-center justify-center shadow-xl border-4 border-[#F89D58]">
+            <img src="${bracket.campeon.escudo}" alt="Campeón" class="w-16 h-16 object-contain mb-2" />
+            <span class="text-sm font-bold text-[#524C4C]">Campeón</span>
+            <span class="text-sm text-[#524C4C] font-semibold">${bracket.campeon.nombre}</span>
+          </div>
+        </div>
+        <!-- 3er y 4to puesto -->
+        <div class="flex flex-col items-center">
+          <span class="text-gray-600 font-semibold mb-4">3° y 4° puesto</span>
+          <div class="flex space-x-12">
+            <div class="flex flex-col items-center">
+              <div class="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center shadow border-2 border-[#B8E2A6]">
+                <img src="${bracket.tercerPuesto[0].escudo}" alt="${bracket.tercerPuesto[0].nombre}" class="w-10 h-10 object-contain" />
+              </div>
+              <span class="mt-1 text-xs text-gray-700 font-semibold">${bracket.tercerPuesto[0].nombre}</span>
+            </div>
+            <div class="flex flex-col items-center">
+              <div class="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center shadow border-2 border-[#B8E2A6]">
+                <img src="${bracket.tercerPuesto[1].escudo}" alt="${bracket.tercerPuesto[1].nombre}" class="w-10 h-10 object-contain" />
+              </div>
+              <span class="mt-1 text-xs text-gray-700 font-semibold">${bracket.tercerPuesto[1].nombre}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    document.getElementById("bracketContainer").innerHTML = html;
+  }
 </script>
 </body>
 </html>
