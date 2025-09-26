@@ -42,8 +42,19 @@
     </div>
   </section>
 
+  <section>
+    <div class="flex flex-col items-center my-4">
+      <span class="text-lg font-semibold text-[#524C4C] mb-2">Categorías</span>
+      <div class="flex">
+        <button id="tabUnica" class="tab-btn px-6 py-2 rounded-t-lg font-semibold text-gray-700 bg-white shadow transition-colors border-b-2 border-[#F89D58]">Única</button>
+        <button id="tabVeteranos" class="tab-btn px-6 py-2 rounded-t-lg font-semibold text-gray-700 bg-white shadow transition-colors ml-2">Veteranos</button>
+        <button id="tabMujeres" class="tab-btn px-6 py-2 rounded-t-lg font-semibold text-gray-700 bg-white shadow transition-colors ml-2">Mujeres</button>
+      </div>
+    </div>
+  </section>
+
   <!-- Partidos en Vivo -->
-  <section class="py-12">
+  <section class="py-8">
     <div class="container mx-auto px-6">
       <h3 class="text-3xl font-bold text-[#524C4C] mb-6 text-center">⚽ Partidos en Vivo</h3>
       <div class="space-y-4" id="liveMatches">
@@ -122,13 +133,15 @@
   </div>
 
   <script>
-    // Datos de ejemplo
-    const equipos = [
-    {
-        id: 1,
-        nombre: "Chita FC",
-        escudo: "assets/Chita.png",
-        jugadores: [
+  // Datos por categoría (puedes personalizar después)
+  const dataCategorias = {
+    "Única": {
+      equipos: [
+        {
+          id: 1,
+          nombre: "Chita FC",
+          escudo: "assets/Chita.png",
+          jugadores: [
             "#1 Portero - Juan",
             "#5 Defensa - Carlos",
             "#8 Mediocampo - Luis",
@@ -136,13 +149,13 @@
             "#2 Defensa - Diego",
             "#6 Mediocampo - Andrés",
             "#11 Delantero - Manuel"
-        ]
-    },
-    {
-        id: 2,
-        nombre: "Tunja FC",
-        escudo: "assets/Tunja.png",
-        jugadores: [
+          ]
+        },
+        {
+          id: 2,
+          nombre: "Tunja FC",
+          escudo: "assets/Tunja.png",
+          jugadores: [
             "#1 Portero - Miguel",
             "#3 Defensa - Andrés",
             "#7 Mediocampo - Felipe",
@@ -150,13 +163,13 @@
             "#4 Defensa - Jorge",
             "#6 Mediocampo - Kevin",
             "#10 Delantero - Samuel"
-        ]
-    },
-    {
-        id: 3,
-        nombre: "Bogotá FC",
-        escudo: "assets/Bogota.png",
-        jugadores: [
+          ]
+        },
+        {
+          id: 3,
+          nombre: "Bogotá FC",
+          escudo: "assets/Bogota.png",
+          jugadores: [
             "#1 Portero - Jorge",
             "#4 Defensa - Camilo",
             "#6 Mediocampo - Julián",
@@ -164,13 +177,13 @@
             "#2 Defensa - Iván",
             "#7 Mediocampo - Nicolás",
             "#9 Delantero - Santiago"
-        ]
-    },
-    {
-        id: 4,
-        nombre: "Llanera FC",
-        escudo: "assets/Llanera.png",
-        jugadores: [
+          ]
+        },
+        {
+          id: 4,
+          nombre: "Llanera FC",
+          escudo: "assets/Llanera.png",
+          jugadores: [
             "#1 Portero - David",
             "#2 Defensa - Sebastián",
             "#8 Mediocampo - Óscar",
@@ -178,47 +191,185 @@
             "#3 Defensa - Fernando",
             "#5 Mediocampo - Pablo",
             "#9 Delantero - Ricardo"
-        ]
+          ]
+        }
+      ],
+      partidosEnVivo: [
+        { equipoA: "Chita FC", golesA: 2, equipoB: "Tunja FC", golesB: 1, minuto: 75 }
+      ],
+      proximosPartidos: [
+        { equipoA: "Bogotá FC", equipoB: "Llanera FC", hora: "11:00", estado: "Programado" },
+        { equipoA: "Tunja FC", equipoB: "Bogotá FC", hora: "2:00", estado: "Programado" },
+        { equipoA: "Llanera FC", equipoB: "Chita FC", hora: "4:00", estado: "Programado" }
+      ],
+      resultadosPasados: [
+        { resultado: "Chita FC 1 - 2 Bogotá FC", fecha: "1 Nov 2025" },
+        { resultado: "Tunja FC 2 - 2 Llanera FC", fecha: "2 Nov 2025" }
+      ]
+    },
+    "Veteranos": {
+      equipos: [
+        {
+          id: 1,
+          nombre: "Chita FC",
+          escudo: "assets/Chita.png",
+          jugadores: [
+            "#1 Portero - Juan",
+            "#5 Defensa - Carlos",
+            "#8 Mediocampo - Luis",
+            "#10 Delantero - Pedro",
+            "#2 Defensa - Diego",
+            "#6 Mediocampo - Andrés",
+            "#11 Delantero - Manuel"
+          ]
+        },
+        {
+          id: 2,
+          nombre: "Tunja FC",
+          escudo: "assets/Tunja.png",
+          jugadores: [
+            "#1 Portero - Miguel",
+            "#3 Defensa - Andrés",
+            "#7 Mediocampo - Felipe",
+            "#9 Delantero - Mateo",
+            "#4 Defensa - Jorge",
+            "#6 Mediocampo - Kevin",
+            "#10 Delantero - Samuel"
+          ]
+        },
+        {
+          id: 3,
+          nombre: "Bogotá FC",
+          escudo: "assets/Bogota.png",
+          jugadores: [
+            "#1 Portero - Jorge",
+            "#4 Defensa - Camilo",
+            "#6 Mediocampo - Julián",
+            "#11 Delantero - Esteban",
+            "#2 Defensa - Iván",
+            "#7 Mediocampo - Nicolás",
+            "#9 Delantero - Santiago"
+          ]
+        },
+        {
+          id: 4,
+          nombre: "Llanera FC",
+          escudo: "assets/Llanera.png",
+          jugadores: [
+            "#1 Portero - David",
+            "#2 Defensa - Sebastián",
+            "#8 Mediocampo - Óscar",
+            "#10 Delantero - Martín",
+            "#3 Defensa - Fernando",
+            "#5 Mediocampo - Pablo",
+            "#9 Delantero - Ricardo"
+          ]
+        }
+      ],
+      partidosEnVivo: [
+        { equipoA: "Tunja FC", golesA: 0, equipoB: "Bogotá FC", golesB: 0, minuto: 60 }
+      ],
+      proximosPartidos: [
+        { equipoA: "Chita FC", equipoB: "Llanera FC", hora: "12:00", estado: "Programado" }
+      ],
+      resultadosPasados: [
+        { resultado: "Llanera FC 0 - 1 Tunja FC", fecha: "3 Nov 2025" }
+      ]
+    },
+    "Mujeres": {
+      equipos: [
+        {
+          id: 1,
+          nombre: "Chita FC",
+          escudo: "assets/Chita.png",
+          jugadores: [
+            "#1 Portera - Ana",
+            "#5 Defensa - Laura",
+            "#8 Mediocampo - Paula",
+            "#10 Delantera - Sofía",
+            "#2 Defensa - Diana",
+            "#6 Mediocampo - Andrea",
+            "#11 Delantera - Mariana"
+          ]
+        },
+        {
+          id: 2,
+          nombre: "Tunja FC",
+          escudo: "assets/Tunja.png",
+          jugadores: [
+            "#1 Portera - Camila",
+            "#3 Defensa - Valeria",
+            "#7 Mediocampo - Daniela",
+            "#9 Delantera - Juliana",
+            "#4 Defensa - Gabriela",
+            "#6 Mediocampo - Karen",
+            "#10 Delantera - Sara"
+          ]
+        },
+        {
+          id: 3,
+          nombre: "Bogotá FC",
+          escudo: "assets/Bogota.png",
+          jugadores: [
+            "#1 Portera - Natalia",
+            "#4 Defensa - Mónica",
+            "#6 Mediocampo - Lucía",
+            "#11 Delantera - Estefanía",
+            "#2 Defensa - Viviana",
+            "#7 Mediocampo - Nicole",
+            "#9 Delantera - Susana"
+          ]
+        },
+        {
+          id: 4,
+          nombre: "Llanera FC",
+          escudo: "assets/Llanera.png",
+          jugadores: [
+            "#1 Portera - Patricia",
+            "#2 Defensa - Sandra",
+            "#8 Mediocampo - Olga",
+            "#10 Delantera - Marta",
+            "#3 Defensa - Fernanda",
+            "#5 Mediocampo - Pilar",
+            "#9 Delantera - Rosa"
+          ]
+        }
+      ],
+      partidosEnVivo: [
+        { equipoA: "Chita FC", golesA: 1, equipoB: "Llanera FC", golesB: 1, minuto: 50 }
+      ],
+      proximosPartidos: [
+        { equipoA: "Bogotá FC", equipoB: "Tunja FC", hora: "10:00", estado: "Programado" }
+      ],
+      resultadosPasados: [
+        { resultado: "Tunja FC 2 - 0 Chita FC", fecha: "4 Nov 2025" }
+      ]
     }
-];
+  };
 
-    const partidosEnVivo = [
-      { equipoA: "Chita FC", golesA: 2, equipoB: "Tunja FC", golesB: 1, minuto: 75 }
-    ];
+  let categoriaActiva = "Única";
 
-    const proximosPartidos = [
-      { equipoA: "Bogotá FC", equipoB: "Llanera FC", hora: "11:00", estado: "Programado" },
-      { equipoA: "Tunja FC", equipoB: "Bogotá FC", hora: "2:00", estado: "Programado" },
-      { equipoA: "Llanera FC", equipoB: "Chita FC", hora: "4:00", estado: "Programado" }
-    ];
-
-    const resultadosPasados = [
-      { resultado: "Chita FC 1 - 2 Bogotá FC", fecha: "1 Nov 2025" },
-      { resultado: "Tunja FC 2 - 2 Llanera FC", fecha: "2 Nov 2025" }
-    ];
-
-    // Render equipos
-    function renderEquipos() {
-      const grid = document.getElementById("eventsGrid");
-      grid.innerHTML = equipos.map(eq => `
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover cursor-pointer" onclick="showEquipo(${eq.id})">
-          <div class="h-40 gradient-bg flex items-center justify-center">
-            <img src="${eq.escudo}" alt="Escudo de ${eq.nombre}" class="w-20 h-20 object-contain" />
-          </div>
-          <div class="p-6 text-center">
-            <h4 class="text-xl font-bold text-gray-800">${eq.nombre}</h4>
-            <button class="w-full mt-4 bg-[#F89D58] text-white py-2 rounded-lg font-medium hover:bg-[#B57849] transition-colors">
-                Ver Jugadores
-            </button>
-          </div>
+  function renderEquipos(equipos) {
+    const grid = document.getElementById("eventsGrid");
+    grid.innerHTML = equipos.map(eq => `
+      <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover cursor-pointer" onclick="showEquipo('${eq.nombre}')">
+        <div class="h-40 gradient-bg flex items-center justify-center">
+          <img src="${eq.escudo}" alt="Escudo de ${eq.nombre}" class="w-20 h-20 object-contain" />
         </div>
-      `).join("");
-    }
+        <div class="p-6 text-center">
+          <h4 class="text-xl font-bold text-gray-800">${eq.nombre}</h4>
+          <button class="w-full mt-4 bg-[#F89D58] text-white py-2 rounded-lg font-medium hover:bg-[#B57849] transition-colors">
+              Ver Jugadores
+          </button>
+        </div>
+      </div>
+    `).join("");
+  }
 
-    // Render partidos en vivo
-    function renderPartidos() {
-      const cont = document.getElementById("liveMatches");
-      cont.innerHTML = partidosEnVivo.map(p => `        
+  function renderPartidos(partidosEnVivo) {
+    const cont = document.getElementById("liveMatches");
+    cont.innerHTML = partidosEnVivo.length
+      ? partidosEnVivo.map(p => `        
         <div class="bg-white rounded-xl shadow-md p-6 flex justify-between items-center ${p.minuto ? 'border-l-8 border-red-500' : ''}">
             <div class="flex-1 text-center font-bold">${p.equipoA}</div>
           <div class="flex-1 text-center">
@@ -226,13 +377,14 @@
           </div>
           <div class="flex-1 text-center font-bold">${p.equipoB}</div>
         </div>
-      `).join("");
-    }
+      `).join("")
+      : `<div class="text-center text-gray-400">No hay partidos en vivo.</div>`;
+  }
 
-    // Render próximos partidos
-    function renderProximosPartidos() {
-      const cont = document.getElementById("nextMatches");
-      cont.innerHTML = proximosPartidos.map(p => `
+  function renderProximosPartidos(proximosPartidos) {
+    const cont = document.getElementById("nextMatches");
+    cont.innerHTML = proximosPartidos.length
+      ? proximosPartidos.map(p => `
         <div class="bg-white rounded-xl shadow-md p-6 flex justify-between items-center ${p.minuto ? 'border-l-8 border-red-500' : ''}">
           <div class="flex-1 text-center font-bold">${p.equipoA}</div>
           <div class="flex-1 text-center">
@@ -240,57 +392,86 @@
           </div>
           <div class="flex-1 text-center font-bold">${p.equipoB}</div>
         </div>
-      `).join("");
-    }
+      `).join("")
+      : `<div class="text-center text-gray-400">No hay próximos partidos.</div>`;
+  }
 
-    // Render resultados pasados
-    function renderResultados() {
-      const cont = document.getElementById("pastResults");
-      cont.innerHTML = resultadosPasados.map(r => `
+  function renderResultados(resultadosPasados) {
+    const cont = document.getElementById("pastResults");
+    cont.innerHTML = resultadosPasados.length
+      ? resultadosPasados.map(r => `
         <div class="flex justify-between bg-white rounded-lg shadow p-4">
           <span>${r.resultado}</span>
           <span class="text-gray-500 text-sm">${r.fecha}</span>
         </div>
-      `).join("");
-    }
+      `).join("")
+      : `<div class="text-center text-gray-400">No hay resultados recientes.</div>`;
+  }
 
-    // Mostrar jugadores del equipo
-    function showEquipo(id) {
-      const eq = equipos.find(e => e.id === id);
-      const modal = document.getElementById("eventModal");
-      const details = document.getElementById("eventDetails");
+  function renderCategoria(categoria) {
+    categoriaActiva = categoria;
+    renderEquipos(dataCategorias[categoria].equipos);
+    renderPartidos(dataCategorias[categoria].partidosEnVivo);
+    renderProximosPartidos(dataCategorias[categoria].proximosPartidos);
+    renderResultados(dataCategorias[categoria].resultadosPasados);
+  }
 
-      details.innerHTML = `
-        <div class="h-48 gradient-bg flex items-center justify-center">
-          <img src="${eq.escudo}" alt="Escudo de ${eq.nombre}" class="w-24 h-24 object-contain" />
-        </div>
-        <div class="p-8">
-          <h2 class="text-3xl font-bold text-gray-800 mb-4">${eq.nombre}</h2>
-          <h3 class="text-xl font-bold text-gray-800 mb-3">Plantilla</h3>
-          <ul class="space-y-2">
-            ${eq.jugadores.map(j => `<li class="bg-gray-50 px-4 py-2 rounded-lg">${j}</li>`).join("")}
-          </ul>
-        </div>
-      `;
-      modal.classList.remove("hidden");
-    }
+  function showEquipo(nombreEquipo) {
+    const eq = dataCategorias[categoriaActiva].equipos.find(e => e.nombre === nombreEquipo);
+    const modal = document.getElementById("eventModal");
+    const details = document.getElementById("eventDetails");
 
-    // Controles de modales
-    document.getElementById("loginBtn").addEventListener("click", () => {
-      document.getElementById("loginModal").classList.remove("hidden");
+    details.innerHTML = `
+      <div class="h-48 gradient-bg flex items-center justify-center">
+        <img src="${eq.escudo}" alt="Escudo de ${eq.nombre}" class="w-24 h-24 object-contain" />
+      </div>
+      <div class="p-8">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">${eq.nombre}</h2>
+        <h3 class="text-xl font-bold text-gray-800 mb-3">Plantilla</h3>
+        <ul class="space-y-2">
+          ${eq.jugadores.map(j => `<li class="bg-gray-50 px-4 py-2 rounded-lg">${j}</li>`).join("")}
+        </ul>
+      </div>
+    `;
+    modal.classList.remove("hidden");
+  }
+
+  function activarTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.classList.remove('border-[#F89D58]', 'border-b-2', 'bg-white');
+      btn.classList.add('bg-gray-100');
     });
-    document.getElementById("closeLogin").addEventListener("click", () => {
-      document.getElementById("loginModal").classList.add("hidden");
-    });
-    document.getElementById("closeEvent").addEventListener("click", () => {
-      document.getElementById("eventModal").classList.add("hidden");
-    });
+    tab.classList.add('border-[#F89D58]', 'border-b-2', 'bg-white');
+    tab.classList.remove('bg-gray-100');
+  }
 
-    // Inicializar
-    renderEquipos();
-    renderPartidos();
-    renderProximosPartidos();
-    renderResultados();
-  </script>
+  document.getElementById("tabUnica").addEventListener("click", function() {
+    renderCategoria("Única");
+    activarTab(this);
+  });
+  document.getElementById("tabVeteranos").addEventListener("click", function() {
+    renderCategoria("Veteranos");
+    activarTab(this);
+  });
+  document.getElementById("tabMujeres").addEventListener("click", function() {
+    renderCategoria("Mujeres");
+    activarTab(this);
+  });
+
+  // Controles de modales
+  document.getElementById("loginBtn").addEventListener("click", () => {
+    document.getElementById("loginModal").classList.remove("hidden");
+  });
+  document.getElementById("closeLogin").addEventListener("click", () => {
+    document.getElementById("loginModal").classList.add("hidden");
+  });
+  document.getElementById("closeEvent").addEventListener("click", () => {
+    document.getElementById("eventModal").classList.add("hidden");
+  });
+
+  // Inicializar
+  renderCategoria("Única");
+  activarTab(document.getElementById("tabUnica"));
+</script>
 </body>
 </html>
